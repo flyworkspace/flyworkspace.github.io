@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+          <head>
+        <meta charset="utf-8">
+            
+            <title>
+                jinpengfei
+            </title>
+            <meta content="width=device-width, initial-scale=1" name="viewport">
+            <meta name="theme-color" content="#4184f3">
+            
+            
+            <link href="/favicon.ico" rel="icon"/>
+            
+
+            <link rel="stylesheet" href="/css/highlight.light.css">
+            <link rel="stylesheet" href="/css/prism-customize.css">
+            <link rel="stylesheet" href="/css/nav-icon.css">
+            <link rel="stylesheet" href="/css/waves.min.css">
+            <link rel="stylesheet" href="/css/jquery.tocify.css">
+            <link rel="stylesheet" href="/css/main.css">
+            <link rel="stylesheet" href="/css/nav-indicator.css">
+            
+  
+
+  
+            </meta>
+        </meta>
+    </head>
+
+    <body>
+        <header>
+            <!-- cover image or sth. -->
+        </header>
+        <div id="main" class="m-scene">
+            
+<div class="nav-wrapper">
+
+    <div class="container">
+        <nav>
+            <div class="logo wave">
+                <a href="/" id="logo">
+                    jinpengfei
+                </a>
+            </div>
+            <div class="nav-toggle-icon" >
+                <div class="material-hamburger">
+                    <span>
+                    </span>
+                    <span>
+                    </span>
+                    <span>
+                    </span>
+                </div>
+            </div>
+            <div class="menu-wrapper">
+                <div class="nav-indicator">
+                </div>
+                <ul class="menus">
+                    
+                     
+                        <li>
+                            <a class="wave " href="/">
+                                Home
+                            </a>
+                        </li>
+                     
+                        <li>
+                            <a class="wave " href="/archives">
+                                Archive
+                            </a>
+                        </li>
+                     
+                        <li>
+                            <a class="wave " href="/about">
+                                About
+                            </a>
+                        </li>
+                     
+                    
+                   
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>
+            <div class="container content">
+                <div class="scene_element scene_element--fadein">
+                    <div class="row">
+    <div class="main">
+        <article>
+          
+          <header class="post-header">
+          
+          </header>
+          <h1 class="post-title"></h1>
+
+          <section class="post-info">
+            <span class="post-date">2016/12/29</span>
+            
+            
+          </section>
+
+          <section class="post-content">
+            <p>#Android Studio memory monitor</p>
+<p>##1.简介<br>    Memory monitor 可以帮助分析内存使用情况。当应用的内存占用很高时，本工具可以帮助查看类、类的实例，和所有变量所占用的内存。通过分析各部分占用的内存，可以帮助查找潜在的内存泄露，也可以通过分析各变量的内存占用，对代码进行优化，减少内存的使用，使应用可以在低内存高性能下运行。<br>Memory monitor主要功能:</p>
+<ul>
+<li>展示了一个内存使用情况的曲线图</li>
+<li>显示垃圾回收（GC）的时间。</li>
+<li>主动触发一个垃圾回收（GC）</li>
+</ul>
+<p>##2.使用方法</p>
+<p>###2.1 内存镜像<br>    生成内存镜像，当从图中发现内存使用较高时，点击  ，可以主动触发GC。当应用内存使用很高，并且存在很严重的内存泄露时，点击该按钮后的效果并不明显，内存并没有降低或者降低的很少。点击，稍等片刻，会生成该应用的内存快照。如图</p>
+<ul>
+<li>Total Count：内存中该类对象个数。</li>
+<li>Heap Count：堆内存中该类对象个数。</li>
+<li>Sizeof：每个对象的大小（如果为0，则大小不固定）。</li>
+<li>Shallow size：对象本身占有内存大小。</li>
+<li>Retained Size：释放该对象后，节省的内存大小。</li>
+</ul>
+<blockquote>
+<p>其中，Retained Size之所以比Shallow size大的原因是，该对象释放后，会引起其他对象的回收。 例如，某个对象被回收后： 该对象引用的其他对象也会被回收， 该对象A被另一对象B强引用后，之前对象B因为强引用该对象A而没有被回收，现在该对象A被回收后，若对象B强引用的其他对象都已被回收，则对象B也会被回收。</p>
+</blockquote>
+<p>优化内存：<br>点击Class Name中的类名，查看其所有实例（Instance），分析实例中参数所占用的内存。</p>
+<p>根据Retaine Size 排序，查找Instance 中Depth较小的实例或者参数，在代码中找到相应的位置，查看内存占用是否合理。</p>
+<hr>
+<p>####判断内存泄露的步骤：<br>从Total Count入手。该类的对象数量不对。</p>
+<ul>
+<li>很多对象只可能存在1个，若存在多个，则可能存在泄露。例如MainActivity的数量为2。又或者由于单例的使用不规范而导致创建多个“单例”对象。</li>
+<li>某个对象已经不再使用，而其还在内存中显示。例如LoginActivity已经退出了，其数量为1。</li>
+</ul>
+<p>Memory Monitor只提供了内存信息，如需详细信息，可以通过android studio 的Captures （View—–Tool window—–Captures）栏，右键点击快照文件，Export to standard .hprof 将堆快照（Heap Snapshot）转换成通用的hprof文件，之后可以通过其他内存分析工具打开，例如MAT。 </p>
+<hr>
+<p>###2.2 跟踪内存分配（Allocation tracker）<br>    点击，开始监听内存的分配情况，再次点击，监听完成，生成报告。该报告显示这段时间内，内存的分配情况。</p>
+<hr>
+<p>###2.3 小结：<br>       2.1是从内存的静态信息中分析，是某一个点的内存使用情况。2.2是跟踪某一段时间内内存的分配情况，是个过程跟踪。分析内存可以相结合，例如，再进行某个操作前，执行2.1导出静态内存信息，在开启2.2开始跟踪内存的分配。当执行完操作的时候，关闭内存分配的跟踪，再次执行2.1的，导出操作某个流程后的静态信息。将2.1的两个静态表结合2.2的内存分配动态过程一起分析。</p>
+<p>##3.分析样例</p>
+<p>###3.1.占用内存分析样例<br>打开某应用后，切换几个页面，内存飞速上涨。这只是一个极端例子，有很多app，随着用的时间越长，内存也是一直在升高。</p>
+<p>根据2.1的方法，生成内存镜像。</p>
+<p>查找可疑的对象，这个过程是逐个分析的过程，例如byte[]其实是其他对象的某个参数，很多本质上都是byte[]，例如Bitmap中mBuffer也是byte[]，当内存中有很多Bitmap的时候，byte[]也会很高。所以byte[]不是我们重点关注对象，如果真的是因为Bitmap（或者其他类）多而造成的byte[]高，那么下面肯定会有该类也会占用很高内存。<br>继续分析下一个HashMap$HashMapEntry。点击它后，在Instance栏中，看到其实例很多，先从占用大的实例入手。</p>
+<p>例如99=这个，点击它后Reference Tree显示如下：</p>
+<p>得知这个HashMap是ReuseThumbnail…类中ReuseThumbnailManager的REUSE_BITMAPS。在代码中查看其大小是否合理。本例中REUSE_BITMAPS参数是static参数，其类型是HashMap，查看逻辑，看其是否正常。<br>再看其他参数，逐个分析其内存占用是否正常。</p>
+<p>分析内存是个逐步的过程，一个问题解决后，再次循环这些步骤。有时候虽然列表中显示很多对象占用内存很高，有可能是同一个参数导致的，所以一个问题解决后，有可能有一系列参数占用高的情况会消失。就比如如果高内存bitmap的优化后，byte[]也很降低很多，其他参数也有可能会降低很多。</p>
+<p>###3.2跟踪内存分配分析样例<br>3.1是从静态内存信息中分析内存的使用，现在按照2.2从动态过程中跟踪内存的分配。</p>
+<p>生成报告如下：</p>
+<p>查看Size最大的一个Thread.</p>
+<p>可以看到调用过程，从NewDisplayRunnale（执行了636次）调用了BitmapDecoder的decode方法（执行了135次），从代码中分析过程是否合理。</p>
+<p>###3.3内存泄露分析样例<br>对于android的内存泄露，一般监测Activity的泄露居多，例如LeakCanary默认也是监测Activity是否泄露。<br>现写一个demo，故意造成内存泄露作为分析样例。</p>
+
+          </section>
+        </article>
+        
+
+       
+        <div class="pager">
+          
+            <a class="post-prev pager-item" href="/2016/12/29/Android/" >
+              <strong class="article-nav-caption">Newer</strong>
+              <p class="post-nav-title">Android</p>
+            </a>
+          
+          
+            <a class="post-next pager-item" href="/2016/11/16/my-first-bolog/">
+              <strong class="article-nav-caption">Older</strong>
+              <p class="post-nav-title">my first bolog</p>
+            </a>
+          
+        </div>
+        
+
+         <!-- comments -->
+        <div class="comment-section">
+  
+    
+
+    <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="_posts/AndroidStudioMemoryMonitor.md" data-title="" data-url="localhost:8080/2016/12/29/AndroidStudioMemoryMonitor/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+      <script type="text/javascript">
+      var duoshuoQuery = {short_name:"wayouliu"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+
+  
+
+
+</div>
+
+    </div>
+    
+</div>
+
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+    <p>由<a href="http://hexo.io/" target="_blank">Hexo</a>强力驱动，搭载<a href="https://github.com/wayou/hexo-theme-gstyle">gstyle</a>主题</p>
+    <p>
+        &copy; 2016 jpf
+    </p>
+</footer>
+<script src="/lib/jquery.js"></script>
+<script src="/lib/waves.js"></script>
+<script src="/lib/jquery-ui.js"></script>
+<script src="/lib/jquery.tocify.js"></script>
+<script src="/js/main.js"></script>
+
+    </body>
+</html>
