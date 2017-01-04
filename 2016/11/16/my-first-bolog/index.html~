@@ -108,7 +108,7 @@
 <li>显示垃圾回收（GC）的时间。</li>
 <li>主动触发一个垃圾回收（GC）</li>
 </ul>
-<h2 id="2-使用方法"><a href="#2-使用方法" class="headerlink" title="2.使用方法"></a>2.使用方法</h2><h3 id="2-1-内存镜像"><a href="#2-1-内存镜像" class="headerlink" title="2.1 内存镜像"></a>2.1 内存镜像</h3><pre><code>生成内存镜像，当从图中发现内存使用较高时，点击  ，可以主动触发GC。当应用内存使用很高，并且存在很严重的内存泄露时，点击该按钮后的效果并不明显，内存并没有降低或者降低的很少。点击，稍等片刻，会生成该应用的内存快照。如图
+<h2 id="2-使用方法"><a href="#2-使用方法" class="headerlink" title="2.使用方法"></a>2.使用方法</h2><h3 id="2-1-内存镜像"><a href="#2-1-内存镜像" class="headerlink" title="2.1 内存镜像"></a>2.1 内存镜像</h3><pre><code>生成内存镜像，当从图中发现内存使用较高时，点击![](https://link.zhihu.com/?target=https%3A//raw.githubusercontent.com/smshen/MarkdownPhotos/master/Res/test.jpg)，可以主动触发GC。当应用内存使用很高，并且存在很严重的内存泄露时，点击该按钮后的效果并不明显，内存并没有降低或者降低的很少。点击，稍等片刻，会生成该应用的内存快照。如图
 </code></pre><ul>
 <li>Total Count：内存中该类对象个数。</li>
 <li>Heap Count：堆内存中该类对象个数。</li>
@@ -150,7 +150,7 @@
         <div class="pager">
           
             <a class="post-prev pager-item" href="/2016/12/29/AndroidStudioMemoryMonitor/" >
-              <strong class="article-nav-caption">Newer</strong>
+              <strong class="article-nav-caption">Récent</strong>
               <p class="post-nav-title"></p>
             </a>
           
